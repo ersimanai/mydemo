@@ -12,7 +12,7 @@ func init() {
     beego.Router("/update", &controllers.UsersController{}, "*:Update")
     beego.Router("/upload", &controllers.UsersController{}, "*:Upload")
 
-    beego.Router("/registe/register", &controllers.UsersController{}, "Post:PostRegister")
+    beego.Router("/register/register", &controllers.UsersController{}, "Post:PostRegister")
     beego.Router("/login/login", &controllers.UsersController{}, "Post:PostLogin")
     beego.Router("/update/update", &controllers.UsersController{}, "Post:PostUpdate")
     beego.Router("/upload/upload", &controllers.UsersController{}, "Post:PostUpload")

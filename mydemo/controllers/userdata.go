@@ -38,8 +38,6 @@ func (c *UsersController) Register() {
 }
 func(c *UsersController) PostRegister() {
 
-	fmt.Println("注册")
-	c.TplName = "register.tpl"
 	name := c.GetString("username")
 	password := c.GetString("password")
 
@@ -48,7 +46,7 @@ func(c *UsersController) PostRegister() {
 	u.Password = password
 	models.Register(u)
 
-	//c.Ctx.WriteString("注册成功")
+	c.Ctx.WriteString("登陆成功")
 
 }
 
