@@ -7,9 +7,13 @@ import (
 
 func init() {
     beego.Router("/", &controllers.MainController{})
-    beego.Router("/register", &controllers.UsersController{}, "post:PostRegister")
-    beego.Router("/login", &controllers.UsersController{}, "post:PostLogin")
-    beego.Router("/update", &controllers.UsersController{}, "post:PostUpdate")
-    beego.Router("/upload", &controllers.UsersController{}, "post:PostUpload")
+    beego.Router("/register", &controllers.UsersController{}, "*:Register")
+    beego.Router("/login", &controllers.UsersController{}, "*:Login")
+    beego.Router("/update", &controllers.UsersController{}, "*:Update")
+    beego.Router("/upload", &controllers.UsersController{}, "*:Upload")
 
+    beego.Router("/registe/register", &controllers.UsersController{}, "Post:PostRegister")
+    beego.Router("/login/login", &controllers.UsersController{}, "Post:PostLogin")
+    beego.Router("/update/update", &controllers.UsersController{}, "Post:PostUpdate")
+    beego.Router("/upload/upload", &controllers.UsersController{}, "Post:PostUpload")
 }
