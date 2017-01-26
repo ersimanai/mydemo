@@ -8,28 +8,20 @@ import (
 	"mydemo/mydemo/models"
 )
 
+const (
+	Success = iota
+	Failed
+	Error
+
+)
+
+
 type UsersController struct {
 	beego.Controller
 }
 
 func init() {
 
-}
-func (c *UsersController) Login() {
-	fmt.Println("登录")
-	c.TplName = "login.tpl"
-
-}
-func (c *UsersController) PostLogin() {
-	name := c.GetString("username")
-	password := c.GetString("password")
-
-	u := new(models.Userdata)
-	u.Name = name 
-	u.Password = password
-	models.Register(u)
-
-	c.Ctx.WriteString("登陆成功")
 }
 
 func (c *UsersController) Register() {
@@ -44,11 +36,38 @@ func(c *UsersController) PostRegister() {
 	u := new(models.Userdata)
 	u.Name = name 
 	u.Password = password
-	models.Register(u)
+	b := models.Register(u)
 
-	c.Ctx.WriteString("登陆成功")
+	if !b {
+		c.Ctx.WriteString("注册失败")
+		return
+	}
+	c.Ctx.WriteString("注册成功")
 
 }
+
+func (c *UsersController) Login() {
+	fmt.Println("登录")
+	c.TplName = "login.tpl"
+
+}
+func (c *UsersController) PostLogin() {
+	name := c.GetString("username")
+	password := c.GetString("password")
+
+	u := new(models.Userdata)
+	u.Name = name 
+	u.Password = password
+	b := models.Login(u)
+
+	if !b {
+		c.Ctx.WriteString("用户或者密码错误")
+		return
+	}
+	c.Ctx.WriteString("登陆成功")
+}
+
+
 
 func(c *UsersController) Update() {
 	fmt.Println("修改")
@@ -56,6 +75,19 @@ func(c *UsersController) Update() {
 
 }
 func(c *UsersController) PostUpdate() {
+	name := c.GetString("username")
+	oldpassword := c.GetString("oldpassword")
+	newpassword := c.GetString("newpassword")
+
+	u := new(models.Userdata)
+	u.Name = name 
+	u.Password = oldpassword
+
+	switch	flag := models.Update(u,newpassword); flag {
+		case Success : c.Ctx.WriteString("修改成功")
+		case Failed : c.Ctx.WriteString("修改密码失败")
+		case Error : c.Ctx.WriteString("用户名或者旧密码错误")
+	}
 
 }
 
