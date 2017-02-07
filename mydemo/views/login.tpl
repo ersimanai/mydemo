@@ -1,6 +1,7 @@
 <html>
 <head>
 	<title>登录</title>
+	<script type="text/javascript" src = "/static/js/test.js"></script>
 </head>
 <body>
 	<form action="/login/login"  onsubmit = "checkpost()" method="post" >

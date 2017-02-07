@@ -50,6 +50,7 @@ func (c *UsersController) Login() {
 	fmt.Println("登录")
 	c.TplName = "login.tpl"
 
+
 }
 func (c *UsersController) PostLogin() {
 	name := c.GetString("username")
@@ -64,7 +65,10 @@ func (c *UsersController) PostLogin() {
 		c.Ctx.WriteString("用户或者密码错误")
 		return
 	}
-	c.Ctx.WriteString("登陆成功")
+	//c.Ctx.WriteString("登陆成功")
+	//c.TplName = "websocket.tpl"
+	//c.TplName = "websocket.tpl"
+	c.Redirect("/ws?uname="+name, 302)
 }
 
 
