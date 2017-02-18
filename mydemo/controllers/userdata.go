@@ -4,8 +4,12 @@ import (
 	"github.com/astaxie/beego"
 	_"github.com/go-sql-driver/mysql"
 	"fmt"
+	"sync"
+	"time"
 
-	"mydemo/mydemo/models"
+	"mygolang/mydemo/mydemo/models"
+
+
 )
 
 const (
@@ -16,17 +20,32 @@ const (
 )
 
 
+
+var wg sync.WaitGroup
+var lr LimitRate
+
 type UsersController struct {
 	beego.Controller
 }
 
 func init() {
-
+	lr.SetRate(3)
+	lr.lastAction = time.Now()
+	
 }
 
 func (c *UsersController) Register() {
-	fmt.Println("注册")
-	c.TplName = "register.tpl"
+	wg.Add(1)
+	go func() {
+		if lr.Limit() {
+			fmt.Println("注册")
+			c.TplName = "register.tpl"
+		}
+		wg.Done()
+	}()
+	
+	wg.Wait()
+	
 }
 func(c *UsersController) PostRegister() {
 
@@ -36,6 +55,9 @@ func(c *UsersController) PostRegister() {
 	u := new(models.Userdata)
 	u.Name = name 
 	u.Password = password
+	
+
+
 	b := models.Register(u)
 
 	if !b {
@@ -47,8 +69,16 @@ func(c *UsersController) PostRegister() {
 }
 
 func (c *UsersController) Login() {
-	fmt.Println("登录")
-	c.TplName = "login.tpl"
+	wg.Add(1)
+	go func() {
+		if lr.Limit() {
+			fmt.Println("登录")
+			c.TplName = "login.tpl"
+		}
+		wg.Done()
+	}()
+	
+	wg.Wait()
 
 
 }
@@ -74,8 +104,19 @@ func (c *UsersController) PostLogin() {
 
 
 func(c *UsersController) Update() {
-	fmt.Println("修改")
-	c.TplName = "update.tpl"
+	//fmt.Println("修改")
+	//c.TplName = "update.tpl"
+
+	wg.Add(1)
+	go func() {
+		if lr.Limit() {
+			fmt.Println("修改")
+			c.TplName = "update.tpl"
+		}
+		wg.Done()
+	}()
+	
+	wg.Wait()
 
 }
 func(c *UsersController) PostUpdate() {
@@ -96,8 +137,19 @@ func(c *UsersController) PostUpdate() {
 }
 
 func (c *UsersController) Upload() {
-	fmt.Println("上传")
-	c.TplName = "upload.tpl"
+	//fmt.Println("上传")
+	//c.TplName = "upload.tpl"
+
+	wg.Add(1)
+	go func() {
+		if lr.Limit() {
+			fmt.Println("上传")
+			c.TplName = "upload.tpl"
+		}
+		wg.Done()
+	}()
+	
+	wg.Wait()
 }
 func (c *UsersController) PostUpload() {
 	fmt.Println("upload")

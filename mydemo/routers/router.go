@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"mydemo/mydemo/controllers"
+	"mygolang/mydemo/mydemo/controllers"
 	"github.com/astaxie/beego"
 )
 

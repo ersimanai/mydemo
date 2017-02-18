@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "mydemo/mydemo/routers"
+	_"mygolang/mydemo/mydemo/routers"
 	"github.com/astaxie/beego"
 )
 
